@@ -1,0 +1,33 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
+public class App {
+    private static final String CHROME_DRIVER_PATH =
+            "C:/Users/smeta/Downloads/chromedriver-win64/chromedriver-win64/chromedriver.exe";
+
+    public static void main(String[] args) {
+        System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_PATH);
+        WebDriver webDriver = new ChromeDriver();
+        try {
+            webDriver.get("https://www.calculator.net/password-generator.html");
+            WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(20));
+            String password = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(
+                            By.cssSelector("#resultid .verybigtext b"))).getText();
+            System.out.println("Задание 1 - сгенерированный пароль: " + password);
+
+            Task2.run(webDriver);
+            Task3.run(webDriver);
+        } catch (Exception e) {
+            System.out.println("Error");
+            System.out.println(e.toString());
+        } finally {
+            webDriver.quit();
+        }
+    }
+}
